@@ -49,8 +49,7 @@
 #include "src/core/lib/surface/call.h"
 #include "src/core/lib/surface/call_test_only.h"
 #include "test/core/end2end/cq_verifier.h"
-
-enum { TIMEOUT = 200000 };
+#include "test/core/end2end/test_tools.h"
 
 static void *tag(intptr_t t) { return (void *)t; }
 
@@ -66,16 +65,10 @@ static grpc_end2end_test_fixture begin_test(grpc_end2end_test_config config,
   return f;
 }
 
-static gpr_timespec n_seconds_time(int n) {
-  return GRPC_TIMEOUT_SECONDS_TO_DEADLINE(n);
-}
-
-static gpr_timespec five_seconds_time(void) { return n_seconds_time(5); }
-
 static void drain_cq(grpc_completion_queue *cq) {
   grpc_event ev;
   do {
-    ev = grpc_completion_queue_next(cq, five_seconds_time(), NULL);
+    ev = grpc_completion_queue_next(cq, default_test_timeout(), NULL);
   } while (ev.type != GRPC_QUEUE_SHUTDOWN);
 }
 
@@ -83,7 +76,7 @@ static void shutdown_server(grpc_end2end_test_fixture *f) {
   if (!f->server) return;
   grpc_server_shutdown_and_notify(f->server, f->cq, tag(1000));
   GPR_ASSERT(grpc_completion_queue_pluck(
-                 f->cq, tag(1000), GRPC_TIMEOUT_SECONDS_TO_DEADLINE(5), NULL)
+                 f->cq, tag(1000), default_test_timeout(), NULL)
                  .type == GRPC_OP_COMPLETE);
   grpc_server_destroy(f->server);
   f->server = NULL;
@@ -114,7 +107,7 @@ static void request_for_disabled_algorithm(
   grpc_call *s;
   gpr_slice request_payload_slice;
   grpc_byte_buffer *request_payload;
-  gpr_timespec deadline = five_seconds_time();
+  gpr_timespec deadline = default_test_timeout();
   grpc_channel_args *client_args;
   grpc_channel_args *server_args;
   grpc_end2end_test_fixture f;
@@ -281,7 +274,7 @@ static void request_with_payload_template(
   grpc_call *s;
   gpr_slice request_payload_slice;
   grpc_byte_buffer *request_payload;
-  gpr_timespec deadline = five_seconds_time();
+  gpr_timespec deadline = default_test_timeout();
   grpc_channel_args *client_args;
   grpc_channel_args *server_args;
   grpc_end2end_test_fixture f;

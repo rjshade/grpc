@@ -3074,6 +3074,7 @@ LIBGRPC_TEST_UTIL_SRC = \
     test/core/security/oauth2_utils.c \
     test/core/end2end/cq_verifier.c \
     test/core/end2end/fixtures/proxy.c \
+    test/core/end2end/test_tools.c \
     test/core/iomgr/endpoint_tests.c \
     test/core/util/grpc_profiler.c \
     test/core/util/memory_counters.c \
@@ -3124,6 +3125,7 @@ endif
 LIBGRPC_TEST_UTIL_UNSECURE_SRC = \
     test/core/end2end/cq_verifier.c \
     test/core/end2end/fixtures/proxy.c \
+    test/core/end2end/test_tools.c \
     test/core/iomgr/endpoint_tests.c \
     test/core/util/grpc_profiler.c \
     test/core/util/memory_counters.c \

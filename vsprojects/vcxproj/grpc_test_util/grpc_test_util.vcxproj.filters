@@ -22,6 +22,9 @@
     <ClCompile Include="$(SolutionDir)\..\test\core\end2end\fixtures\proxy.c">
       <Filter>test\core\end2end\fixtures</Filter>
     </ClCompile>
+    <ClCompile Include="$(SolutionDir)\..\test\core\end2end\test_tools.c">
+      <Filter>test\core\end2end</Filter>
+    </ClCompile>
     <ClCompile Include="$(SolutionDir)\..\test\core\iomgr\endpoint_tests.c">
       <Filter>test\core\iomgr</Filter>
     </ClCompile>
@@ -65,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="$(SolutionDir)\..\test\core\end2end\fixtures\proxy.h">
       <Filter>test\core\end2end\fixtures</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SolutionDir)\..\test\core\end2end\test_tools.h">
+      <Filter>test\core\end2end</Filter>
     </ClInclude>
     <ClInclude Include="$(SolutionDir)\..\test\core\iomgr\endpoint_tests.h">
       <Filter>test\core\iomgr</Filter>

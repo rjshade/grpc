@@ -42,8 +42,7 @@
 #include <grpc/support/time.h>
 #include <grpc/support/useful.h>
 #include "test/core/end2end/cq_verifier.h"
-
-enum { TIMEOUT = 200000 };
+#include "test/core/end2end/test_tools.h"
 
 static void *tag(intptr_t t) { return (void *)t; }
 
@@ -61,16 +60,10 @@ static grpc_end2end_test_fixture begin_test(grpc_end2end_test_config config,
   return f;
 }
 
-static gpr_timespec n_seconds_time(int n) {
-  return GRPC_TIMEOUT_SECONDS_TO_DEADLINE(n);
-}
-
-static gpr_timespec five_seconds_time(void) { return n_seconds_time(5); }
-
 static void drain_cq(grpc_completion_queue *cq) {
   grpc_event ev;
   do {
-    ev = grpc_completion_queue_next(cq, five_seconds_time(), NULL);
+    ev = grpc_completion_queue_next(cq, default_test_timeout(), NULL);
   } while (ev.type != GRPC_QUEUE_SHUTDOWN);
 }
 
@@ -78,7 +71,7 @@ static void shutdown_server(grpc_end2end_test_fixture *f) {
   if (!f->server) return;
   grpc_server_shutdown_and_notify(f->server, f->cq, tag(1000));
   GPR_ASSERT(grpc_completion_queue_pluck(
-                 f->cq, tag(1000), GRPC_TIMEOUT_SECONDS_TO_DEADLINE(5), NULL)
+                 f->cq, tag(1000), default_test_timeout(), NULL)
                  .type == GRPC_OP_COMPLETE);
   grpc_server_destroy(f->server);
   f->server = NULL;
@@ -109,7 +102,7 @@ static void test(grpc_end2end_test_config config, bool request_status_early) {
   gpr_slice response_payload2_slice = gpr_slice_from_copied_string("world");
   grpc_byte_buffer *response_payload2 =
       grpc_raw_byte_buffer_create(&response_payload2_slice, 1);
-  gpr_timespec deadline = five_seconds_time();
+  gpr_timespec deadline = default_test_timeout();
   grpc_end2end_test_fixture f = begin_test(config, "streaming_error_response",
                                            NULL, NULL, request_status_early);
   cq_verifier *cqv = cq_verifier_create(f.cq);

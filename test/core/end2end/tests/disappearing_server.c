@@ -42,21 +42,14 @@
 #include <grpc/support/time.h>
 #include <grpc/support/useful.h>
 #include "test/core/end2end/cq_verifier.h"
-
-enum { TIMEOUT = 200000 };
+#include "test/core/end2end/test_tools.h"
 
 static void *tag(intptr_t t) { return (void *)t; }
-
-static gpr_timespec n_seconds_time(int n) {
-  return GRPC_TIMEOUT_SECONDS_TO_DEADLINE(n);
-}
-
-static gpr_timespec five_seconds_time(void) { return n_seconds_time(5); }
 
 static void drain_cq(grpc_completion_queue *cq) {
   grpc_event ev;
   do {
-    ev = grpc_completion_queue_next(cq, five_seconds_time(), NULL);
+    ev = grpc_completion_queue_next(cq, default_test_timeout(), NULL);
   } while (ev.type != GRPC_QUEUE_SHUTDOWN);
 }
 
@@ -85,7 +78,7 @@ static void do_request_and_shutdown_server(grpc_end2end_test_fixture *f,
                                            cq_verifier *cqv) {
   grpc_call *c;
   grpc_call *s;
-  gpr_timespec deadline = five_seconds_time();
+  gpr_timespec deadline = default_test_timeout();
   grpc_op ops[6];
   grpc_op *op;
   grpc_metadata_array initial_metadata_recv;

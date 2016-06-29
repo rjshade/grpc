@@ -39,6 +39,7 @@
 #include <grpc/support/time.h>
 
 #include "test/core/end2end/cq_verifier.h"
+#include "test/core/end2end/test_tools.h"
 
 static void *tag(intptr_t t) { return (void *)t; }
 

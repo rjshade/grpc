@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)\..\test\core\end2end\cq_verifier.h" />
     <ClInclude Include="$(SolutionDir)\..\test\core\end2end\fixtures\proxy.h" />
+    <ClInclude Include="$(SolutionDir)\..\test\core\end2end\test_tools.h" />
     <ClInclude Include="$(SolutionDir)\..\test\core\iomgr\endpoint_tests.h" />
     <ClInclude Include="$(SolutionDir)\..\test\core\util\grpc_profiler.h" />
     <ClInclude Include="$(SolutionDir)\..\test\core\util\memory_counters.h" />
@@ -163,6 +164,8 @@
     <ClCompile Include="$(SolutionDir)\..\test\core\end2end\cq_verifier.c">
     </ClCompile>
     <ClCompile Include="$(SolutionDir)\..\test\core\end2end\fixtures\proxy.c">
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)\..\test\core\end2end\test_tools.c">
     </ClCompile>
     <ClCompile Include="$(SolutionDir)\..\test\core\iomgr\endpoint_tests.c">
     </ClCompile>
